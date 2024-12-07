@@ -21,7 +21,7 @@ public class Main {
             //If user wants to continue, proceeding the program
             if (answer.equalsIgnoreCase("Y")) {
 
-                //Threading
+                //Threading for Vendor and Customer
 
                 //Creating TicketPool object with  maximum ticket capacity
                 TicketPool ticketPool = new TicketPool(configuration.maxTicketCapacity);
@@ -89,6 +89,7 @@ public class Main {
                 System.out.println("Invalid Input! Please enter 'Y' or 'N'.");
             }
             System.out.println("System stopped."); //Stopping the system
+            break;
         }
 
     }
