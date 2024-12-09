@@ -32,7 +32,7 @@ public class TicketPool {
         this.ticketsQueue.add(ticket);  //Add new ticket to the pool
         notifyAll();
         //Notify all threads  waiting the new ticket has added
-        System.out.println("Ticket added by: " + Thread.currentThread().getName() + " - current size is - " + ticketsQueue.size());
+        System.out.println("Ticket added by: " + Thread.currentThread().getName() + " - current available ticket amount is - " + ticketsQueue.size());
     }
 
 
@@ -48,7 +48,7 @@ public class TicketPool {
                 System.out.println("Ticket pool is empty! Wait until add tickets");
             } catch (InterruptedException e) {
                 //handle exception and stops the operation
-                System.out.println(Thread.currentThread().getName() + " - was interrupted while waiting for a ticket.");
+                System.out.println("Customer" + Thread.currentThread().getName() + " - was interrupted while waiting for a ticket.");
                 return null; //return null to indicate tickets aren't available
             }
         }
@@ -57,7 +57,7 @@ public class TicketPool {
         Ticket ticket = ticketsQueue.poll();
         // Notify the threads that ticket has been purchased
         notifyAll();
-        System.out.println("Ticket bought by customer " + Thread.currentThread().getName() + " , current size is - " + ticketsQueue.size() + " , Ticket is - " + ticket);
+        System.out.println("Ticket bought by customer " + Thread.currentThread().getName() + " , current available ticket amount is - " + ticketsQueue.size() + " , Ticket is - " + ticket);
         return ticket; //return the ticket to the customer
     }
 
