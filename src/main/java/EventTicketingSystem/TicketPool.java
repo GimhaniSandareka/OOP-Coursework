@@ -21,9 +21,11 @@ public class TicketPool {
             try {
                 //If tickets pool is already full, the vendor thread will go into waiting status.
                 wait();
+                System.out.println("Ticket pool is full! Please wait!");
             } catch (InterruptedException e) {
                 e.printStackTrace(); //For CLI
                 throw new RuntimeException(e.getMessage()); //Throw an exception for Client-Server Application if needed
+
             }
         }
 
@@ -43,6 +45,7 @@ public class TicketPool {
             try {
                 // If the pool is empty, the customer thread will go into waiting status
                 wait();
+                System.out.println("Ticket pool is empty! Wait until add tickets");
             } catch (InterruptedException e) {
                 //handle exception and stops the operation
                 System.out.println(Thread.currentThread().getName() + " - was interrupted while waiting for a ticket.");
