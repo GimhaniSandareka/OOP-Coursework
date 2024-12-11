@@ -51,3 +51,20 @@ The Vite app should now be running on `http://localhost:5173`
 - RESTful API: Supports CRUD operations (GET, POST, PUT, DELETE) for ticket management.
 - Optimized Development: Vite and React provide a fast and modular development environment
 
+## Troubleshooting
+
+- **CORS** Issues:  If the frontend and backend run on different origins, configure CORS in the backend:
+```Spring Boot
+@Configuration
+public class WebConfig {
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("http://localhost:5173");
+            }
+        };
+    }
+}
+```
