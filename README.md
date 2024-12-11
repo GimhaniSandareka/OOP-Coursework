@@ -68,3 +68,6 @@ public class WebConfig {
     }
 }
 ```
+- **Network Debugging:** Use browser developer tools to inspect API requests and SSE connections.
+
+
