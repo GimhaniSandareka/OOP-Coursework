@@ -28,38 +28,6 @@ public class TicketPoolService {
 
 
 
-    //Adds a ticket to the pool if pool isn't full
-//    public void addTicket(Ticket ticket) {
-//        lock.lock();
-//        try{
-//            if (ticketPool.size() < maxCapacity) {
-//                ticketPool.add(ticket);
-//                System.out.println("Vendor added ticket : " + ticket);
-//            } else {
-//                System.out.println("Ticket pool is full. Cannot add tickets.");
-//            }
-//        }finally {
-//            lock.unlock();
-//        }
-//    }
-
-    //Remove a ticket from the pool
-//    public Ticket removeTicket() {
-//        lock.lock();
-//        try{
-//            if (!ticketPool.isEmpty()) {
-//                Ticket ticket = ticketPool.poll();
-//                System.out.println("Vendor removed ticket : " + ticket);
-//                return ticket;
-//            } else {
-//                System.out.println("No tickets available.");
-//                return null;  //returns null if there's no tickets available
-//            }
-//        } finally {
-//            lock.unlock();
-//        }
-//    }
-
     public Ticket removeTicket(String caller) {
         lock.lock();
         try {
@@ -127,5 +95,30 @@ public class TicketPoolService {
         ticket.setAvailableTickets(ticket.getAvailableTickets() + ticketsToAdd);
         ticketRepository.save(ticket);
     }
+
+
+
+    public void setCurrentStatus(TicketPoolStatus status) {
+        this.soldTickets = status.getSoldTickets();
+        // Optionally adjust the pool size to match availableTickets
+        lock.lock();
+        try {
+            int currentAvailable = ticketPool.size();
+            int targetAvailable = status.getAvailableTickets();
+            if (targetAvailable > currentAvailable) {
+                // Add dummy tickets to match the target (for demo, real logic may differ)
+                for (int i = 0; i < targetAvailable - currentAvailable; i++) {
+                    ticketPool.add(new Ticket("Event", 1, 0.0));
+                }
+            } else if (targetAvailable < currentAvailable) {
+                for (int i = 0; i < currentAvailable - targetAvailable; i++) {
+                    ticketPool.poll();
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
 
 }

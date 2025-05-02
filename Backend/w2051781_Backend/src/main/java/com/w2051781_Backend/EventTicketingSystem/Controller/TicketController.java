@@ -3,10 +3,14 @@ package com.w2051781_Backend.EventTicketingSystem.Controller;
 import com.w2051781_Backend.EventTicketingSystem.Model.Ticket;
 import com.w2051781_Backend.EventTicketingSystem.Repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 @RestController
 public class TicketController {
@@ -52,6 +56,22 @@ public class TicketController {
     public void removeTicket(@PathVariable int id) {
         Ticket ticket = ticketRepository.findById(id).get();
         ticketRepository.delete(ticket);
+    }
+
+    @GetMapping("/api/event-info")
+    public ResponseEntity<?> getEventInfo() {
+        Ticket ticket = ticketRepository.findAll().stream().findFirst().orElse(null);
+        Map<String, Object> eventInfo = new HashMap<>();
+        if (ticket != null) {
+            eventInfo.put("name", ticket.getEventName());
+            eventInfo.put("date", "October 30, 2024");
+            eventInfo.put("location", "Colombo, Sri Lanka");
+        } else {
+            eventInfo.put("name", "Custom Event Name");
+            eventInfo.put("date", "October 30, 2024");
+            eventInfo.put("location", "Colombo, Sri Lanka");
+        }
+        return ResponseEntity.ok(eventInfo);
     }
 
 
